@@ -4,12 +4,15 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import { connectDB } from './config/db';
 import { routers } from './routers';
-
+import path from 'path';
+const pathdir = path.join(__dirname.replace('/src', '/'), '/upload');
 // express app
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+// public routes
+app.use('/upload', express.static(pathdir));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 

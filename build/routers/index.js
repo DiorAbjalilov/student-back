@@ -7,24 +7,19 @@ exports.routers = void 0;
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const controller_1 = __importDefault(require("../controller"));
-// videos api connect
-router.get('/videos', controller_1.default.videos.getVideos);
-router.post('/videos', controller_1.default.videos.addVideos);
-router.put('/videos', controller_1.default.videos.putVideos);
-router.delete('/videos', controller_1.default.videos.deleteVideos);
-// videos api connect
-router.get('/users', controller_1.default.users.getAllUsers);
-router.post('/user', controller_1.default.users.addUser);
-router.put('/user', controller_1.default.users.putUser);
-router.delete('/user', controller_1.default.users.deleteUser);
-// basic menu api connect
-// router.get('/basicMenu', constroller.basicMenu.getBasicMenu);
-// router.post('/basicMenu', constroller.basicMenu.addBasicMenu);
-// router.put('/basicMenu', constroller.basicMenu.putBasicMenu);
-// router.delete('/basicMenu', constroller.basicMenu.deleteBasicMenu);
-// sub menu api connect
-// router.get('/subMenu', constroller.subMenu.getSubMenu);
-// router.post('/subMenu', constroller.subMenu.addSubMenu);
-// router.put('/subMenu', constroller.subMenu.putSubMenu);
-// router.delete('/subMenu', constroller.subMenu.deleteSubMenu);
+const multer_1 = __importDefault(require("multer"));
+const auth_1 = require("../middleware/auth");
+const storage = multer_1.default.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/upload');
+    },
+    filename: function async(req, file, cb) {
+        let type = file.mimetype.split('/')[1];
+        cb(null, `${Date.now()}-photo.${type}`);
+    }
+});
+const upload = (0, multer_1.default)({ storage: storage });
+router.post('/register', controller_1.default.usersController.registrUser);
+router.post('/login', controller_1.default.usersController.loginUser);
+router.put('/updateUser', upload.single('avatar'), auth_1.verifyToken, controller_1.default.usersController.updateOneUser);
 exports.routers = router;

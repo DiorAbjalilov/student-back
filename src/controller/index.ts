@@ -1,11 +1,7 @@
-import { basicMenu } from './basicMenu';
-import { subMenu } from './subMenu';
-import { videos } from './videos';
-import { users } from './user';
+import { postersController } from './posters';
+import { usersController } from './user';
 
 export default {
-  basicMenu,
-  subMenu,
-  videos,
-  users
+  postersController,
+  usersController
 };

@@ -1,28 +1,28 @@
-import express, { Request, Response } from 'express';
+import express, { Request } from 'express';
 const router = express.Router();
-import constroller from '../controller';
+import controller from '../controller';
+import { verifyToken } from '../middleware/auth';
+import multer from 'multer';
 
-// videos api connect
-router.get('/videos', constroller.videos.getVideos);
-router.post('/videos', constroller.videos.addVideos);
-router.put('/videos', constroller.videos.putVideos);
-router.delete('/videos', constroller.videos.deleteVideos);
+const storage = multer.diskStorage({
+  destination: function (req: Request, file, cb) {
+    cb(null, './upload');
+  },
+  filename: function async(req: Request, file, cb) {
+    let type = file.mimetype.split('/')[1];
+    cb(null, `${Date.now()}-photo.${type}`);
+  }
+});
 
-// videos api connect
-router.get('/users', constroller.users.getAllUsers);
-router.post('/user', constroller.users.addUser);
-router.put('/user', constroller.users.putUser);
-router.delete('/user', constroller.users.deleteUser);
+const upload = multer({ storage: storage });
 
-// basic menu api connect
-// router.get('/basicMenu', constroller.basicMenu.getBasicMenu);
-// router.post('/basicMenu', constroller.basicMenu.addBasicMenu);
-// router.put('/basicMenu', constroller.basicMenu.putBasicMenu);
-// router.delete('/basicMenu', constroller.basicMenu.deleteBasicMenu);
-// sub menu api connect
-// router.get('/subMenu', constroller.subMenu.getSubMenu);
-// router.post('/subMenu', constroller.subMenu.addSubMenu);
-// router.put('/subMenu', constroller.subMenu.putSubMenu);
-// router.delete('/subMenu', constroller.subMenu.deleteSubMenu);
+router.post('/register', controller.usersController.registerUser);
+router.post('/login', controller.usersController.loginUser);
+router.put(
+  '/updateUser',
+  verifyToken,
+  upload.single('avatar'),
+  controller.usersController.updateOneUser
+);
 
 export const routers = router;
