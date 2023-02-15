@@ -128,6 +128,17 @@ const updateOneUser = async (req: Request, res: Response) => {
 // delete user || DELETE request || By ID || TOKEN request
 const deleteOneUser = async (req: Request, res: Response) => {
   try {
+    // @ts-ignore
+    const _id = req.auth.subject;
+    const isUser = await UserModule.findByIdAndRemove({ _id });
+    if (!!isUser) {
+      await res
+        .status(404)
+        .json({ success: true, data: [], message: "Account o'chirildi" });
+    }
+    await res
+      .status(404)
+      .json({ success: false, data: [], message: 'Account topilmadi' });
   } catch (error) {
     await res.status(404).json({ success: false, data: [], message: error });
     console.log(error);

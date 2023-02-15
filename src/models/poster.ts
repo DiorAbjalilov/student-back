@@ -5,7 +5,6 @@ export interface IPoster extends mongoose.Document {
   photo: string;
   type: string;
   price: number;
-  date: Date;
   ownerId: Types.ObjectId;
 }
 const posterSchema = new mongoose.Schema(
@@ -19,17 +18,13 @@ const posterSchema = new mongoose.Schema(
       required: true
     },
     photo: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     type: {
       type: String,
       enum: ['Kelishiladi'],
       require: true
-    },
-    date: {
-      type: Date,
-      required: true
     },
     ownerId: {
       type: Types.ObjectId,

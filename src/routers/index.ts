@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// user routers
 router.post('/register', controller.usersController.registerUser);
 router.post('/login', controller.usersController.loginUser);
 router.put(
@@ -24,5 +25,30 @@ router.put(
   upload.single('avatar'),
   controller.usersController.updateOneUser
 );
+router.post(
+  '/deleteUser',
+  verifyToken,
+  controller.usersController.deleteOneUser
+);
+
+// poster routers
+router.get('/posters', controller.postersController.getAllPosters);
+router.get('/poster', controller.postersController.getOnePoster);
+router.post(
+  '/poster/new',
+  verifyToken,
+  controller.postersController.addNewPoster
+);
+router.put(
+  '/poster/update',
+  verifyToken,
+  controller.postersController.updateOnePoster
+);
+router.delete(
+  '/poster/delete',
+  verifyToken,
+  controller.postersController.deleteOnePoster
+);
+router.get('/posters/search', controller.postersController.getSearchPosters);
 
 export const routers = router;

@@ -6,7 +6,7 @@
   "author": "DiorAbjalilov <abjalilovdiyor@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node ./build/index.js",
+    "start": "node ./.build/index.js",
     "rendering": "yarn && tsc -p .",
     "build": "tsc -p .",
     "dev": "nodemon ./src/index.ts"
