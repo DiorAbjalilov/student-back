@@ -1,34 +1,43 @@
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 export interface IPoster extends mongoose.Document {
-  subject: string;
-  description: string;
+  title: string;
+  text: string;
   photo: string;
+  owner: object;
+  likes: number;
   type: string;
-  price: number;
-  ownerId: Types.ObjectId;
+  comments: number;
 }
-const posterSchema = new mongoose.Schema(
+
+const posterSchema = new mongoose.Schema<IPoster>(
   {
-    subject: {
+    title: {
       type: String,
       required: true
     },
-    description: {
+    text: {
       type: String,
       required: true
     },
     photo: {
-      type: String
-      // required: true
+      type: String,
+      required: false
+    },
+    owner: {
+      type: Object,
+      ref: 'user',
+      required: true
+    },
+    likes: {
+      type: Number
     },
     type: {
       type: String,
-      enum: ['Kelishiladi'],
-      require: true
+      enum: ['post', 'question'],
+      required: true
     },
-    ownerId: {
-      type: Types.ObjectId,
-      ref: 'user',
+    comments: {
+      type: Number,
       required: true
     }
   },

@@ -1,0 +1,24 @@
+import { Strategy } from 'passport-google-oauth20';
+import passport from 'passport';
+
+passport.use(
+  new Strategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: '/api-v1/auth/google/callback',
+      scope: ['profile', 'gmail']
+    },
+    function (accessToken, refreshToken, profile, callback) {
+      callback(null, profile);
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});

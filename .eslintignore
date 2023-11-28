@@ -1,0 +1,5 @@
+/src/base
+react-native.config.js
+metro.config.js
+babel.config.js
+.eslintrc.js
